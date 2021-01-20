@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 namespace Marck7JR.Core.Extensions
 {

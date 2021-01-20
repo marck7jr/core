@@ -1,17 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.UserActivities;
 
 namespace Marck7JR.Core.Extensions
 {
     [TestClass]
     public class YamlExtensionsTest
     {
-        
+
         private class DataSet
         {
             public string? Text { get; set; }
