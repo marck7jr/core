@@ -15,32 +15,32 @@ namespace Marck7JR.Core.Extensions
             public int? Value { get; set; }
         }
 
-        private readonly DataSet _dataSet = new()
+        private static readonly DataSet dataSet = new()
         {
             Test = 1,
             Value = 2,
         };
 
-        private const string _json = "{\"Test\":1,\"Value\":2}";
+        private const string json = "{\"Test\":1,\"Value\":2}";
 
-        private Action<DataSet?> FromJsonAssert => (@object) =>
+        private static Action<DataSet?> FromJsonAssert => (@object) =>
         {
             Assert.IsNotNull(@object);
-            Assert.IsInstanceOfType(@object, _dataSet.GetType());
+            Assert.IsInstanceOfType(@object, dataSet.GetType());
             Assert.AreEqual(1, @object?.Test);
             Assert.AreEqual(2, @object?.Value);
         };
 
-        private Action<string?> ToJsonAssert => (json) =>
+        private static Action<string?> ToJsonAssert => (@string) =>
         {
-            Assert.IsTrue(!string.IsNullOrEmpty(json));
-            Assert.AreEqual(_json, json);
+            Assert.IsTrue(!string.IsNullOrEmpty(@string));
+            Assert.AreEqual(json, @string);
         };
 
         [TestMethod]
         public void FromJson_IsNotNull()
         {
-            var @object = _json.FromJson(typeof(DataSet)) as DataSet;
+            var @object = json.FromJson(typeof(DataSet)) as DataSet;
 
             FromJsonAssert(@object);
         }
@@ -48,7 +48,7 @@ namespace Marck7JR.Core.Extensions
         [TestMethod]
         public async Task FromJsonAsync_IsNotNull()
         {
-            var @object = await _json.FromJsonAsync(typeof(DataSet)) as DataSet;
+            var @object = await json.FromJsonAsync(typeof(DataSet)) as DataSet;
 
             FromJsonAssert(@object);
         }
@@ -56,7 +56,7 @@ namespace Marck7JR.Core.Extensions
         [TestMethod]
         public void FromJsonGeneric_IsNotNull()
         {
-            var @object = _json.FromJson<DataSet>();
+            var @object = json.FromJson<DataSet>();
 
             FromJsonAssert(@object);
         }
@@ -64,7 +64,7 @@ namespace Marck7JR.Core.Extensions
         [TestMethod]
         public async Task FromJsonGenericAsync_IsNotNull()
         {
-            var @object = await _json.FromJsonAsync<DataSet>();
+            var @object = await json.FromJsonAsync<DataSet>();
 
             FromJsonAssert(@object);
         }
@@ -72,7 +72,7 @@ namespace Marck7JR.Core.Extensions
         [TestMethod]
         public void ToJson_IsNotNullOrEmpty()
         {
-            var json = _dataSet.ToJson(_dataSet.GetType());
+            var json = dataSet.ToJson(dataSet.GetType());
 
             ToJsonAssert(json);
 
@@ -82,7 +82,7 @@ namespace Marck7JR.Core.Extensions
         [TestMethod]
         public async Task ToJsonAsync_IsNotNullOrEmpty()
         {
-            var json = await _dataSet.ToJsonAsync(_dataSet.GetType());
+            var json = await dataSet.ToJsonAsync(dataSet.GetType());
 
             ToJsonAssert(json);
 
@@ -92,7 +92,7 @@ namespace Marck7JR.Core.Extensions
         [TestMethod]
         public void ToJsonGeneric_IsNotNullOrEmpty()
         {
-            var json = _dataSet.ToJson();
+            var json = dataSet.ToJson();
 
             ToJsonAssert(json);
 
@@ -102,7 +102,7 @@ namespace Marck7JR.Core.Extensions
         [TestMethod]
         public async Task ToJsonGenericAsync_IsNotNullOrEmpty()
         {
-            var json = await _dataSet.ToJsonAsync();
+            var json = await dataSet.ToJsonAsync();
 
             ToJsonAssert(json);
 

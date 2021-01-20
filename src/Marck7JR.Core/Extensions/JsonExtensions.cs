@@ -48,8 +48,13 @@ namespace Marck7JR.Core.Extensions
 
         public static async Task<T?> FromJsonAsync<T>(this string @string, JsonSerializerOptions? options = null, CancellationToken cancellationToken = default) => (T?)await @string.FromJsonAsync(typeof(T), options, cancellationToken);
 
-        public static string? ToJson(this object @object, Type type, JsonSerializerOptions? options = null)
+        public static string? ToJson(this object? @object, Type type, JsonSerializerOptions? options = null)
         {
+            if (@object is null)
+            {
+                throw new ArgumentNullException(nameof(@object));
+            }
+
             try
             {
                 var json = JsonSerializer.Serialize(@object, type, options);
@@ -63,10 +68,15 @@ namespace Marck7JR.Core.Extensions
             return default;
         }
 
-        public static string? ToJson<T>(this T t, JsonSerializerOptions? options = null) => t!.ToJson(typeof(T), options);
+        public static string? ToJson<T>(this T t, JsonSerializerOptions? options = null) => t.ToJson(typeof(T), options);
 
-        public static async Task<string?> ToJsonAsync(this object @object, Type type, JsonSerializerOptions? options = null, CancellationToken cancellationToken = default)
+        public static async Task<string?> ToJsonAsync(this object? @object, Type type, JsonSerializerOptions? options = null, CancellationToken cancellationToken = default)
         {
+            if (@object is null)
+            {
+                throw new ArgumentNullException(nameof(@object));
+            }
+
             try
             {
                 using MemoryStream memoryStream = new();
@@ -88,6 +98,6 @@ namespace Marck7JR.Core.Extensions
             return default;
         }
 
-        public static async Task<string?> ToJsonAsync<T>(this T t, JsonSerializerOptions? options = null, CancellationToken cancellationToken = default) => await t!.ToJsonAsync(typeof(T), options, cancellationToken);
+        public static async Task<string?> ToJsonAsync<T>(this T t, JsonSerializerOptions? options = null, CancellationToken cancellationToken = default) => await t.ToJsonAsync(typeof(T), options, cancellationToken);
     }
 }
