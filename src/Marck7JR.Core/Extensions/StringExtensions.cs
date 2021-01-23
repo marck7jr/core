@@ -2,6 +2,8 @@
 {
     public static class StringExtensions
     {
+        public static bool IsNotNullOrEmpty(this string? @string) => !@string.IsNullOrEmpty();
+        public static bool IsNotNullOrWhiteSpace(this string? @string) => !@string.IsNullOrWhiteSpace();
         public static bool IsNullOrEmpty(this string? @string) => string.IsNullOrEmpty(@string);
         public static bool IsNullOrWhiteSpace(this string? @string) => string.IsNullOrWhiteSpace(@string);
     }
