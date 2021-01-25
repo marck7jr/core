@@ -2,9 +2,9 @@
 
 namespace Marck7JR.Core.Extensions.Hosting
 {
-    public static class Host
+    public static class HostBinder
     {
-        private readonly static IHostBuilder builder = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder();
+        private readonly static IHostBuilder builder = Host.CreateDefaultBuilder();
         private static IHost? host;
 
         public static IHostBuilder GetHostBuilder() => builder;
