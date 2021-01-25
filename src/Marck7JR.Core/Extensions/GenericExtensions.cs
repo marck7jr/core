@@ -1,10 +1,37 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 
 namespace Marck7JR.Core.Extensions
 {
     public static class GenericExtensions
     {
+        public static string GetDescription<T>(this T t)
+        {
+            DescriptionAttribute? attribute = null;
+
+            if (t is null)
+            {
+                throw new ArgumentNullException(nameof(t));
+            }
+
+            MemberInfo memberInfo = t switch
+            {
+                Enum _ => t.GetType().GetField($"{t}"),
+                _ => t.GetType()
+            };
+
+            attribute = memberInfo.GetCustomAttribute<DescriptionAttribute>(false);
+
+            if (attribute is not null)
+            {
+                return attribute.Description;
+            }
+
+            throw new NullReferenceException($"The field must have a {nameof(DescriptionAttribute)}.");
+        }
+
         public static T? IfNotNull<T>(this T? value, Action<T>? action, Action? fallback = null) where T : class
         {
             if (value is not null)
