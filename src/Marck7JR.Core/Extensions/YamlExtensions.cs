@@ -66,6 +66,6 @@ namespace Marck7JR.Core.Extensions
             return default;
         }
 
-        public static string? ToYaml<T>(this object? @object) => @object.ToYaml(typeof(T));
+        public static string? ToYaml<T>(this T? @object) => @object.ToYaml(typeof(T));
     }
 }
