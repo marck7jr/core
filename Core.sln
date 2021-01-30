@@ -4,17 +4,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30803.129
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B3D57D18-6B42-4BE8-AF96-B620A0E587F8}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8002F839-CA9E-4D95-83B4-D177D66EDCAE}"
+	ProjectSection(SolutionItems) = preProject
+		test\Directory.Build.props = test\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2AA8D7A8-4B1C-48FD-8C8F-1F59A25222F4}"
 	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
 		README.md = README.md
+		version.json = version.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marck7JR.Core", "src\Marck7JR.Core\Marck7JR.Core.csproj", "{2E99372C-4F9C-46E9-B38A-1EFB9EAE82DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marck7JR.Core.Tests", "test\Marck7JR.Core.Tests\Marck7JR.Core.Tests.csproj", "{0823893A-4C02-4F6B-9390-A285C8575789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marck7JR.Core.Tests", "test\Marck7JR.Core.Tests\Marck7JR.Core.Tests.csproj", "{0823893A-4C02-4F6B-9390-A285C8575789}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
