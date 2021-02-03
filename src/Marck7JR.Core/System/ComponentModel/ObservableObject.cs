@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace System.ComponentModel
 {
-    public abstract class ObservableObject : INotifyPropertyChanged
+    public abstract class ObservableObject : INotifyPropertyChanged, ISerializable
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -23,6 +24,21 @@ namespace System.ComponentModel
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+
+        }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
+            GetObjectData(info, context);
         }
     }
 }
