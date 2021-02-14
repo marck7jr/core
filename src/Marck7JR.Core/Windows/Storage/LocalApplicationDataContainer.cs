@@ -5,9 +5,9 @@ using System.Runtime.CompilerServices;
 
 namespace Windows.Storage
 {
-    public class LocalApplicationDataContainer : ObservableObject
+    public abstract class LocalApplicationDataContainer : ObservableObject
     {
-        public LocalApplicationDataContainer()
+        public LocalApplicationDataContainer() : base()
         {
             try
             {
@@ -31,9 +31,19 @@ namespace Windows.Storage
             return base.SetValue(ref field, value, propertyName);
         }
 
+        protected override bool SetValue<T>(ref T field, T value, Action action, [CallerMemberName] string? propertyName = null)
+        {
+            if (ApplicationDataContainer is not null && !AreEquals(ref field, value))
+            {
+                ApplicationDataContainer.Values[propertyName] = value;
+            }
+
+            return base.SetValue(ref field, value, action, propertyName);
+        }
+
         protected override T GetValue<T>(ref T field, [CallerMemberName] string? propertyName = null)
         {
-            if (!(ApplicationDataContainer is null))
+            if (ApplicationDataContainer is not null)
             {
                 if (ApplicationDataContainer.Values.TryGetValue(propertyName, out var value))
                 {

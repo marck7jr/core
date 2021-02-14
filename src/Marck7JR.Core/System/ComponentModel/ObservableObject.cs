@@ -8,20 +8,47 @@ namespace System.ComponentModel
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        public ObservableObject()
+        {
+            PropertyChanged += (sender, args) =>
+            {
+                if (KeyValuePairs is not null && KeyValuePairs.TryGetValue(args.PropertyName, out Action action))
+                {
+                    action?.Invoke();
+                }
+            };
+        }
+
+        protected Dictionary<string?, Action>? KeyValuePairs { get; private set; }
+
         protected virtual bool AreEquals<T>(ref T field, T value, [CallerMemberName] string? propertyName = null) => EqualityComparer<T>.Default.Equals(field, value);
+        
         protected virtual T GetValue<T>(ref T field, [CallerMemberName] string? propertyName = null) => field;
+
         protected virtual bool SetValue<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
         {
             if (AreEquals(ref field, value) is bool boolean && !boolean)
             {
                 field = value;
-                OnPropertyChanged(propertyName!);
+                OnPropertyChanged(propertyName);
             }
 
             return !boolean;
         }
 
-        protected virtual void OnPropertyChanged(string propertyName)
+        protected virtual bool SetValue<T>(ref T field, T value, Action action, [CallerMemberName] string? propertyName = null)
+        {
+            if (KeyValuePairs is null)
+            {
+                KeyValuePairs = new();
+            }
+
+            KeyValuePairs[propertyName] = action;
+
+            return SetValue(ref field, value, propertyName);
+        }
+
+        protected virtual void OnPropertyChanged(string? propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
