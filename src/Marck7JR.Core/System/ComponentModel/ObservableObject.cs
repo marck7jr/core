@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Reflection;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
@@ -28,7 +27,7 @@ namespace System.ComponentModel
 
         protected virtual bool AreEquals<T>(ref T field, T value, [CallerMemberName] string? propertyName = null) => EqualityComparer<T>.Default.Equals(field, value);
 
-        protected virtual void InitializeComponent()
+        public virtual void InitializeComponent()
         {
             var actions = KeyValuePairs?.Select(keyValuePair => keyValuePair.Value);
 
@@ -41,7 +40,7 @@ namespace System.ComponentModel
             }
         }
 
-        protected virtual async ValueTask<bool> InitializeComponentAsync(CancellationToken cancellationToken = default)
+        public virtual async ValueTask<bool> InitializeComponentAsync(CancellationToken cancellationToken = default)
         {
             try
             {
