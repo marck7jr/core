@@ -16,13 +16,13 @@ namespace Marck7JR.Core.Extensions
                 throw new ArgumentNullException(nameof(t));
             }
 
-            MemberInfo memberInfo = t switch
+            MemberInfo? memberInfo = t switch
             {
-                Enum _ => t.GetType().GetField($"{t}"),
+                Enum => t.GetType().GetField($"{t}"),
                 _ => t.GetType()
             };
 
-            attribute = memberInfo.GetCustomAttribute<DescriptionAttribute>(false);
+            attribute = memberInfo?.GetCustomAttribute<DescriptionAttribute>(false);
 
             if (attribute is not null)
             {
