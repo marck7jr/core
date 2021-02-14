@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace System.ComponentModel
 {
-    public abstract class ObservableObject : INotifyPropertyChanged, ISerializable
+    public abstract class ObservableObject : IObservableObject, ISerializable
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
