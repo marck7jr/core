@@ -1,6 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace System.ComponentModel
 {
@@ -22,7 +27,46 @@ namespace System.ComponentModel
         protected Dictionary<string?, Action>? KeyValuePairs { get; private set; }
 
         protected virtual bool AreEquals<T>(ref T field, T value, [CallerMemberName] string? propertyName = null) => EqualityComparer<T>.Default.Equals(field, value);
-        
+
+        protected virtual void InitializeComponent()
+        {
+            var actions = KeyValuePairs?.Select(keyValuePair => keyValuePair.Value);
+
+            if (actions is not null)
+            {
+                foreach (var action in actions)
+                {
+                    action.Invoke();
+                }
+            }
+        }
+
+        protected virtual async ValueTask<bool> InitializeComponentAsync(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var task = Task.Run(() => InitializeComponent(), cancellationToken).ContinueWith(task =>
+                {
+                    task.ConfigureAwait(true).GetAwaiter().OnCompleted(() =>
+                    {
+
+                    });
+
+                    task.Wait(cancellationToken);
+                });
+
+                await task;
+
+                return true;
+            }
+            catch (OperationCanceledException operationCanceledException)
+            {
+                Debug.WriteLine(operationCanceledException);
+            }
+
+            return false;
+        }
+
         protected virtual T GetValue<T>(ref T field, [CallerMemberName] string? propertyName = null) => field;
 
         protected virtual bool SetValue<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
