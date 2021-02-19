@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Marck7JR.Core.Extensions;
+using System;
 using System.Linq.Expressions;
 
 namespace Microsoft.EntityFrameworkCore.Storage.ValueConversion
@@ -11,6 +12,6 @@ namespace Microsoft.EntityFrameworkCore.Storage.ValueConversion
         }
 
         private static Expression<Func<Type?, string?>> ConvertToStringExpression => (type) => type == null ? default : type.FullName;
-        private static Expression<Func<string?, Type?>> ConvertoFromStringExpression => (@string) => Type.GetType(@string);
+        private static Expression<Func<string?, Type?>> ConvertoFromStringExpression => (@string) => @string.IsNotNullOrEmpty() ? Type.GetType(@string) : default;
     }
 }

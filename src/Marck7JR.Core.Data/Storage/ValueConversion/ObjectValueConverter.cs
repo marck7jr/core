@@ -17,7 +17,15 @@ namespace Microsoft.EntityFrameworkCore.Storage.ValueConversion
             public string? TypeName { get; }
             public string? Json { get; }
 
-            public object? GetObject() => Json?.FromJson(Type.GetType(TypeName!));
+            public object? GetObject()
+            {
+                if (TypeName.IsNotNullOrEmpty() && Type.GetType(TypeName) is Type type)
+                {
+                    return Json?.FromJson(type);
+                }
+
+                return default;
+            }
             public override string? ToString() => this.ToYaml();
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Marck7JR.Core.Extensions;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -16,14 +17,14 @@ namespace System.ComponentModel
         {
             PropertyChanged += (sender, args) =>
             {
-                if (KeyValuePairs is not null && KeyValuePairs.TryGetValue(args.PropertyName, out Action action))
+                if (args.PropertyName.IsNotNullOrEmpty() && KeyValuePairs is not null && KeyValuePairs.TryGetValue(args.PropertyName, out Action? action))
                 {
                     action?.Invoke();
                 }
             };
         }
 
-        protected Dictionary<string?, Action>? KeyValuePairs { get; private set; }
+        protected Dictionary<string, Action>? KeyValuePairs { get; private set; }
 
         protected virtual bool AreEquals<T>(ref T field, T value, [CallerMemberName] string? propertyName = null) => EqualityComparer<T>.Default.Equals(field, value);
 
@@ -86,7 +87,7 @@ namespace System.ComponentModel
                 KeyValuePairs = new();
             }
 
-            KeyValuePairs[propertyName] = action;
+            KeyValuePairs[propertyName!] = action;
 
             return SetValue(ref field, value, propertyName);
         }
