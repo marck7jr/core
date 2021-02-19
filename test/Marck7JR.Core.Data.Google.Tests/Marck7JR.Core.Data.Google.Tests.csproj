@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Marck7JR.Core.Data.Google\Marck7JR.Core.Data.Google.csproj" />
+	</ItemGroup>
+
+</Project>

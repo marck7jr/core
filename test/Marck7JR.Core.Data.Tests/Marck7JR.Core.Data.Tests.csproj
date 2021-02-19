@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Marck7JR.Core.Data\Marck7JR.Core.Data.csproj" />
+  </ItemGroup>
+</Project>
